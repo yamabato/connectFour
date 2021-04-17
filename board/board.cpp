@@ -1,3 +1,4 @@
+#include <string>
 #include <iostream>
 
 /*
@@ -8,6 +9,8 @@
 04 14 24 34 44 54 64
 05 15 25 35 45 55 65
 */
+//hand 0:先手, 1:後手
+
 
 void initBoard(int board[7][6]){
     for (int y=0; y<6; y++){
@@ -17,48 +20,57 @@ void initBoard(int board[7][6]){
     }
 }
 
+//先手:青 後手:赤
 void showBoard(int board[7][6]){
+    std::string LIGHT = "\033[2m";
+    std::string RED = "\033[31m";
+    std::string BLUE = "\033[34m";
+    std::string RESET = "\033[0m";
+    
     int piece;
     for (int y=0; y<6; y++){
         for (int x=0; x<7; x++){
             piece = board[x][y];
 
             if (piece == -1){
-                std::cout << "-";
+                std::cout << LIGHT + "-" + RESET;
             }else if(piece == 0){
-                std::cout << "O";
+                std::cout << BLUE + "O" + RESET;
             }else{
-                std::cout << "X";
+                std::cout << RED + "X" + RESET;
             }
+
+            std::cout << " ";
         }
         std::cout << std::endl;
     }
 }
 
-//hand 0:先手, 1:後手
-void drop(int board[7][6], int row, int hand){
+bool drop(int board[7][6], int row, int hand){
     if (row < 0 or row > 6){
-        return;
+        return false;
     }
 
     for (int y=5; y>=0; y--){
-        std::cout << row << std::endl;
-        std::cout << y << std::endl;
         if (board[row][y]==-1){
             board[row][y] = hand;
-            break;
+            return true;
         }
     }
+
+    return false;
 }
 
 int main(){
     int board[7][6];
+    bool success;
+
     initBoard(board);
 
     showBoard(board);
 
-    drop(board, 0, 0);
-    drop(board, 0, 1);
+    success = drop(board, 0, 0);
+    success = drop(board, 0, 1);
 
     std::cout << std::endl;
     showBoard(board);

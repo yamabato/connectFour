@@ -18,9 +18,18 @@ void initBoard(int board[7][6]){
 }
 
 void showBoard(int board[7][6]){
+    int piece;
     for (int y=0; y<6; y++){
         for (int x=0; x<7; x++){
-            std::cout << board[x][y];
+            piece = board[x][y];
+
+            if (piece == -1){
+                std::cout << "-";
+            }else if(piece == 0){
+                std::cout << "O";
+            }else{
+                std::cout << "X";
+            }
         }
         std::cout << std::endl;
     }
@@ -49,6 +58,7 @@ int main(){
     showBoard(board);
 
     drop(board, 0, 0);
+    drop(board, 0, 1);
 
     std::cout << std::endl;
     showBoard(board);

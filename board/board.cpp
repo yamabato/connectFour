@@ -1,18 +1,18 @@
 #include <iostream>
 
 /*
-00 01 02 03 04 05 06
-10 11 12 13 14 15 16
-20 21 22 23 24 25 26
-30 31 32 33 34 35 36
-40 41 42 43 44 45 46
-50 51 52 53 54 55 56
+00 10 20 30 40 50 60
+01 11 21 31 41 51 61
+02 12 22 32 42 52 62
+03 13 23 33 43 53 63
+04 14 24 34 44 54 64
+05 15 25 35 45 55 65
 */
 
 void initBoard(int board[7][6]){
     for (int y=0; y<6; y++){
         for (int x=0; x<7; x++){
-            board[x][y] = 0;
+            board[x][y] = -1;
         }
     }
 }
@@ -32,10 +32,12 @@ void drop(int board[7][6], int row, int hand){
         return;
     }
 
-    for (int y=6; y>=0; y--){
-        if (board[row][y]==0){
-            board[row][y] = 1;
-            return;
+    for (int y=5; y>=0; y--){
+        std::cout << row << std::endl;
+        std::cout << y << std::endl;
+        if (board[row][y]==-1){
+            board[row][y] = hand;
+            break;
         }
     }
 }

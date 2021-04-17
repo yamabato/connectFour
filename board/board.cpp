@@ -61,6 +61,57 @@ bool drop(int board[7][6], int row, int hand){
     return false;
 }
 
+//2引き分け 0先手がち 1後手がち -1未決
+int judge(int board[7][6]){
+    int judgement = -1;
+    int count = 0;
+    int piece;
+    int piece_count = 0;
+
+    //横向きに調べる
+    for (int y=0; y<6; y++){
+        for (int x=0; x<7; x++){
+            piece = board[x][y];
+            if (piece == judgement){
+                count++;
+            }else{
+                judgement = piece;
+                count = 1;
+            }
+
+            piece_count += (piece == -1 ? 0 : 1);
+
+            if (count >= 4 and piece != -1){
+                return judgement;
+            }
+        }
+    }
+
+    judgement = -1;
+    count = 0;
+
+    //たてに調べる
+    for (int x=0; x<7; x++){
+        for (int y=0; y<6; y++){
+            piece = board[x][y];
+            if (piece == judgement){
+                count++;
+            }else{
+                judgement = piece;
+                count = 1;
+            }
+
+            if (count >= 4 and piece != -1){
+                return judgement;
+            }
+        }
+    }
+
+    std::cout << piece_count << std::endl;
+
+    return -1;
+}
+
 int main(){
     int board[7][6];
     bool success;
@@ -70,10 +121,19 @@ int main(){
     showBoard(board);
 
     success = drop(board, 0, 0);
+    success = drop(board, 1, 0);
+    success = drop(board, 2, 0);
+    success = drop(board, 3, 0);
+    success = drop(board, 4, 0);
     success = drop(board, 0, 1);
+    success = drop(board, 0, 1);
+    success = drop(board, 0, 1);
+    success = drop(board, 0, 0);
 
     std::cout << std::endl;
     showBoard(board);
+
+    std::cout << judge(board);
 
     return 0;
 }

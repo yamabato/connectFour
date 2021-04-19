@@ -1,3 +1,4 @@
+#include <vector>
 #include <string>
 #include <iostream>
 
@@ -68,6 +69,27 @@ int judge(int board[7][6]){
     int piece;
     int piece_count = 0;
 
+    int start1[2][10];
+    int start2[2][10];
+
+    for (int y=0; y<6; y++){
+        start1[y][0] = 0;
+        start1[y][1] = y;
+    }
+    for (int x=1; x<7; x++){
+        start1[x+6][0] = x;
+        start1[x+6][1] = 5;
+    }
+
+    for (int x=0; x<7; x++){
+        start2[x][0] = x;
+        start2[x][1] = 0;
+    }
+    for (int y=1; y<6; y++){
+        start2[y+7][0] = 5;
+        start2[y+7][1] = y;
+    }
+
     //横向きに調べる
     for (int y=0; y<6; y++){
         for (int x=0; x<7; x++){
@@ -107,33 +129,53 @@ int judge(int board[7][6]){
         }
     }
 
-    std::cout << piece_count << std::endl;
+    //右肩上がり
+    int x = 0;
+    int y = 0;
+    for (int i=0; i<10; i++){
+        x = start1[i][0];
+        y = start1[i][1];
+        judgement = -1;
+        count = 0;
+        while (x<7 && y<6){
+            piece = board[x][y];
+            if (piece == judgement){
+                count++;
+            }else{
+                judgement = piece;
+                count = 1;
+            }
 
-    return -1;
+            if (count >= 4 and piece != -1){
+                return judgement;
+            }
+            x++;
+            y--;
+        }
+    }
+
+    for (int i=0; i<10; i++){
+        x = start2[i][0];
+        y = start2[i][1];
+        judgement = -1;
+        count = 0;
+        while (x<7 && y<6){
+            piece = board[x][y];
+            if (piece == judgement){
+                count++;
+            }else{
+                judgement = piece;
+                count = 1;
+            }
+
+            if (count >= 4 and piece != -1){
+                return judgement;
+            }
+            x++;
+            y++;
+        }
+    }
+
+    return piece_count==42 ? 2 : -1;
 }
 
-int main(){
-    int board[7][6];
-    bool success;
-
-    initBoard(board);
-
-    showBoard(board);
-
-    success = drop(board, 0, 0);
-    success = drop(board, 1, 0);
-    success = drop(board, 2, 0);
-    success = drop(board, 3, 0);
-    success = drop(board, 4, 0);
-    success = drop(board, 0, 1);
-    success = drop(board, 0, 1);
-    success = drop(board, 0, 1);
-    success = drop(board, 0, 0);
-
-    std::cout << std::endl;
-    showBoard(board);
-
-    std::cout << judge(board);
-
-    return 0;
-}

@@ -2,15 +2,30 @@
 #include <iostream>
 
 #include "board.hpp"
+#include "human.hpp"
+#include "randomAI.hpp"
+
+int getRow(int board[7][6], int hand, int (*firstFunc)(int[7][6], int), int (*lastFunc)(int[7][6], int)){
+    int row;
+    if (hand==0){
+        row = firstFunc(board, hand);
+    }else{
+        row = lastFunc(board, hand);
+    }
+
+    return row;
+}
 
 int game(){
     int board[7][6];
 
     int hand = 0;
-    std::string inp;
     int row;
     bool success;
     int judgement;
+
+    int (*firstFunc)(int[7][6], int) = human;
+    int (*lastFunc)(int[7][6], int) = randomAI;
 
     initBoard(board);
 
@@ -20,18 +35,15 @@ int game(){
         std::cout << "0 1 2 3 4 5 6" << std::endl;
         showBoard(board);
 
-        while (true){
-            std::cout << (hand==0?"先手番":"後手番") << std::endl;
-            getline(std::cin, inp);
+        std::cout << (hand==0?"先手番":"後手番") << std::endl;
+        row = getRow(board, hand, firstFunc, lastFunc);
+        success = drop(board, row, hand);
 
-            try{
-                row = std::stoi(inp);
-                success = drop(board, row, hand);
-                if (success){
-                    break;
-                }
-            }catch(std::invalid_argument e){
-            }catch(std::out_of_range e){
+        if (!success){
+            if (hand==0){
+                std::cout << "後手の勝利" << std::endl;
+            }else{
+                std::cout << "先手の勝利" << std::endl;
             }
         }
 

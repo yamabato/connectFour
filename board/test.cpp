@@ -1,14 +1,12 @@
 #include <iostream>
+#include <vector>
 
 int main(){
-    int a;
+    std::vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
 
-    for (int i=6; i>=0; i--){
-        std::cout << i << std::endl;
-    }
+    std::cout << v.size();
 
-    std::cout << a << std::endl;
-
-    std::cout << "abc";
-    return a;
+    return 0;
 }

@@ -65,6 +65,26 @@ bool drop(int board[7][6], int row, int hand){
     return false;
 }
 
+bool isLegal(int board[7][6], int row){
+    if (board[row][0] == -1){
+        return true;
+    }
+
+    return false;
+}
+
+std::vector<int> legalRow(int board[7][6]){
+    std::vector<int> rows;
+
+    for (int x=0; x<7; x++){
+        if (isLegal(board, x)){
+            rows.push_back(x);
+        }
+    }
+
+    return rows;
+}
+
 //2引き分け 0先手がち 1後手がち -1未決
 int judge(int board[7][6]){
     int judgement = -1;

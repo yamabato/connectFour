@@ -26,6 +26,7 @@ void showBoard(int board[7][6]){
     std::string LIGHT = "\033[2m";
     std::string RED = "\033[31m";
     std::string BLUE = "\033[34m";
+    std::string GREEN = "\033[32m";
     std::string RESET = "\033[0m";
     
     int piece;
@@ -33,12 +34,14 @@ void showBoard(int board[7][6]){
         for (int x=0; x<7; x++){
             piece = board[x][y];
 
-            if (piece == -1){
-                std::cout << LIGHT + "-" + RESET;
+            if (piece == 1){
+                std::cout << RED + "X" + RESET;
             }else if(piece == 0){
                 std::cout << BLUE + "O" + RESET;
+            }else if(piece == -1){
+                std::cout << LIGHT + "-" + RESET;
             }else{
-                std::cout << RED + "X" + RESET;
+                std::cout << GREEN + "!" + RESET;
             }
 
             std::cout << " ";
@@ -69,16 +72,16 @@ int judge(int board[7][6]){
     int piece;
     int piece_count = 0;
 
-    int start1[2][10];
-    int start2[2][10];
+    int start1[12][2];
+    int start2[12][2];
 
     for (int y=0; y<6; y++){
         start1[y][0] = 0;
         start1[y][1] = y;
     }
     for (int x=1; x<7; x++){
-        start1[x+6][0] = x;
-        start1[x+6][1] = 5;
+        start1[x+5][0] = x;
+        start1[x+5][1] = 5;
     }
 
     for (int x=0; x<7; x++){
@@ -86,9 +89,10 @@ int judge(int board[7][6]){
         start2[x][1] = 0;
     }
     for (int y=1; y<6; y++){
-        start2[y+7][0] = 5;
-        start2[y+7][1] = y;
+        start2[y+5][0] = 5;
+        start2[y+5][1] = y;
     }
+
 
     //横向きに調べる
     for (int y=0; y<6; y++){

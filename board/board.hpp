@@ -109,8 +109,8 @@ int judge(int board[7][6]){
         start2[x][1] = 0;
     }
     for (int y=1; y<6; y++){
-        start2[y+5][0] = 5;
-        start2[y+5][1] = y;
+        start2[y+6][0] = 5;
+        start2[y+6][1] = y;
     }
 
 
